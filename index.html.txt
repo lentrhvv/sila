@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolokatsiya</title>
+    <script>
+        function sendLocation(lat, lon) {
+            fetch('save_location.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `latitude=${lat}&longitude=${lon}`
+            })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch(error => console.error('Xatolik:', error));
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    let lat = position.coords.latitude;
+                    let lon = position.coords.longitude;
+                    sendLocation(lat, lon);
+                }, error => {
+                    console.error("Geolokatsiya rad etildi yoki xato yuz berdi.");
+                });
+            } else {
+                console.error("Brauzer geolokatsiyani qo‘llab-quvvatlamaydi.");
+            }
+        }
+
+        window.onload = getLocation;
+    </script>
+</head>
+<body>
+    <h1>Geolokatsiya aniqlanmoqda...</h1>
+</body>
+</html>

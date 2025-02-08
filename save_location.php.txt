@@ -1,0 +1,16 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $latitude = $_POST['latitude'] ?? '';
+    $longitude = $_POST['longitude'] ?? '';
+
+    if (!empty($latitude) && !empty($longitude)) {
+        $data = "Latitude: $latitude, Longitude: $longitude\n";
+        file_put_contents("locations.txt", $data, FILE_APPEND);
+        echo "Geolokatsiya saqlandi.";
+    } else {
+        echo "Ma’lumotlar noto‘g‘ri.";
+    }
+} else {
+    echo "Faqat POST so‘rovlar qabul qilinadi.";
+}
+?>
